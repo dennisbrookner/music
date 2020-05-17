@@ -7,5 +7,5 @@ Created on Sat May 16 17:44:39 2020
 """
 
 from .notes import Note
-from .chords import Triad
-from .sevchords import Chord
+from .triads import Triad
+from .chords import Chord
