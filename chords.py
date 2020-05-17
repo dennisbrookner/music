@@ -6,43 +6,62 @@ Created on Thu May 14 15:27:54 2020
 @author: dennisbrookner
 """
 
-from notes import Note
+from Music.notes import Note
 
-chord_type = dict(major = [4, 7],
-                  minor = [3, 7]
+chord_type = dict(M = ['C', 4, 7],
+                  m = ['A', 3, 7]
 #                  ,
 #                  aug = [4, 8],
 #                  dim = [3, 6]
                   )
 
 class Chord():
-    def __init__(self, name, kind = 'major'):
+    def __init__(self, string):
         
-        if kind == 'major':
-            base = 'C'
-        elif kind == 'minor':
-            base = 'A'
-        else:
+        name, kind = parser(string)
+
+        if kind not in chord_type:
             raise ValueError(f'Unsupported chord type: "{kind}"')
         
         self._kind = kind
         
         self.root(name)
         
-        third = self.root().transpose(chord_type[kind][0]).name()
-        fifth = self.root().transpose(chord_type[kind][1]).name()
+        third = self.root().transpose(chord_type[kind][1]).name()
+        fifth = self.root().transpose(chord_type[kind][2]).name()
         
         self.third(third)
         self.fifth(fifth)
         
         # How should we display the root?
+        self.spell(kind)
+        
+                         
+    def root(self, root = None):
+        if root:
+            self._root = Note(root)
+        return self._root
+    
+    def third(self, third = None):
+        if third:
+            self._third = Note(third)
+        return self._third
+    
+    def fifth(self, fifth = None):
+        if fifth:
+            self._fifth = Note(fifth) 
+        return self._fifth
+    
+    def spell(self, kind):
+        base = chord_type[kind][0]
+        #print(base)
         d = Note(base).distance(self.root())
-              
+        #print(d)
         if d in range(1,5): 
             self.root().to_sharp()
             self.third().to_sharp()
             self.fifth().to_sharp()
-            
+            #print('sharping')
         elif d in range(8,12):
             self.root().to_flat()
             self.third().to_flat()
@@ -68,39 +87,36 @@ class Chord():
         
         else:
             raise ValueError(f'Unexpected transposition error with d = {d}')
-        
-                      
-    def root(self, root = None):
-        if root:
-            self._root = Note(root)
-        return self._root
     
-    def third(self, third = None):
-        if third:
-            self._third = Note(third)
-        return self._third
-    
-    def fifth(self, fifth = None):
-        if fifth:
-            self._fifth = Note(fifth) 
-        return self._fifth
+    def transpose(self, number):
+        new_root_name = self.root().transpose(number).name()
+        kind = self._kind
+        return Chord(f'{new_root_name}{kind}')
     
     def __str__(self):
-        return f'{self.root()} {self._kind} chord: {self.root()} {self.third()} {self.fifth()}'
+        return (f'{self.root()}{self._kind} chord: ' + 
+                   f'{self.root()} {self.third()} {self.fifth()}')
 
     def __repr__(self):
         return f'{self.root()} {self.third()} {self.fifth()}'
 
+def parser(string):
+    
+    name = string[:-1]
+    kind = string[-1]
+    
+    return name, kind
+
 def main():
         
-    notes = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Gb', 'C#', 'Db', 'Ab',
-             'G#', 'Eb', 'D#', 'Bb', 'A#', 'F']
-    
+#    notes = ['C', 'G', 'D', 'A', 'E', 'Cb', 'B', 'F#', 'Gb', 'C#', 'Db', 'Ab',
+#             'G#', 'Eb', 'D#', 'Bb', 'A#', 'F']
+    notes = ['C','Db']
     for root in notes:
-        print(Chord(root, 'major'))
-    print('')
+        print(Chord(f'{root}M'))
+#    print('')
     for root in notes:
-        print(Chord(root, 'minor'))
+        print(Chord(f'{root}m'))
       
     
 # 'make everything run' workaround
