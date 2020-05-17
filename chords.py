@@ -15,7 +15,7 @@ chord_type = dict(M = ['C', 4, 7],
 #                  dim = [3, 6]
                   )
 
-class Chord():
+class Triad():
     def __init__(self, string):
         
         name, kind = parser(string)
@@ -34,7 +34,7 @@ class Chord():
         self.fifth(fifth)
         
         # How should we display the root?
-        self.spell(kind)
+        self.trspell(kind)
         
                          
     def root(self, root = None):
@@ -52,16 +52,13 @@ class Chord():
             self._fifth = Note(fifth) 
         return self._fifth
     
-    def spell(self, kind):
+    def trspell(self, kind):
         base = chord_type[kind][0]
-        #print(base)
         d = Note(base).distance(self.root())
-        #print(d)
         if d in range(1,5): 
             self.root().to_sharp()
             self.third().to_sharp()
             self.fifth().to_sharp()
-            #print('sharping')
         elif d in range(8,12):
             self.root().to_flat()
             self.third().to_flat()
@@ -88,10 +85,10 @@ class Chord():
         else:
             raise ValueError(f'Unexpected transposition error with d = {d}')
     
-    def transpose(self, number):
+    def trtranspose(self, number):
         new_root_name = self.root().transpose(number).name()
         kind = self._kind
-        return Chord(f'{new_root_name}{kind}')
+        return Triad(f'{new_root_name}{kind}')
     
     def __str__(self):
         return (f'{self.root()}{self._kind} chord: ' + 
@@ -113,10 +110,10 @@ def main():
 #             'G#', 'Eb', 'D#', 'Bb', 'A#', 'F']
     notes = ['C','Db']
     for root in notes:
-        print(Chord(f'{root}M'))
+        print(Triad(f'{root}M'))
 #    print('')
     for root in notes:
-        print(Chord(f'{root}m'))
+        print(Triad(f'{root}m'))
       
     
 # 'make everything run' workaround

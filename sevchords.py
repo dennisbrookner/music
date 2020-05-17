@@ -7,17 +7,17 @@ Created on Sat May 16 16:32:58 2020
 """
 
 from Music.notes import Note
-from Music.chords import Chord
+from Music.chords import Triad
 
 sev_type = dict(M = 11,
                 m = 10)
 
-class Sevchord(Chord):
+class Chord(Triad):
     def __init__(self, string):
         
         kind = parser(string)  
         
-        super(Sevchord, self).__init__(kind[0])
+        super(Chord, self).__init__(kind[0])
         
         self._kind = kind
         
@@ -30,11 +30,15 @@ class Sevchord(Chord):
             self._seventh = Note(seventh)
         return self._seventh
     
-    def sevspell(self):
+    def spell(self):
+        
         return
     
-    def sevtranspose(self):
-        return
+    def transpose(self, number):
+        new_root_name = self.root().transpose(number).name()
+        kind = self._kind[2]
+        return Chord(f'{new_root_name}{kind}')
+        
 
 
 
@@ -83,11 +87,11 @@ def main():
 #             'G#', 'Eb', 'D#', 'Bb', 'A#', 'F']
     notes = ['C','Db']
 
-    print(Sevchord('CM7'))
-    print(Sevchord('Cm7'))
-    print(Sevchord('C7'))  
-    print(Sevchord('CM'))
-    print(Sevchord('Cm'))
+    print(Chord('CM7'))
+    print(Chord('Cm7'))
+    print(Chord('C7'))  
+    print(Chord('CM'))
+    print(Chord('Cm'))
       
     
 # 'make everything run' workaround
