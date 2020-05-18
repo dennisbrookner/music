@@ -5,9 +5,8 @@ Created on Sat May 16 16:32:58 2020
 
 @author: dennisbrookner
 """
-
 from Music.notes import Note
-from Music.chords import Triad
+from Music.triads import Triad
 
 sev_type = dict(M = 11,
                 m = 10)
