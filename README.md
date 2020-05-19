@@ -18,7 +18,7 @@ from Music import *
 
 # make a D major chord
 Dmaj = Chord('DM')
-print(dmaj)
+print(Dmaj)
 
 # make an Eb minor 7 chord
 Ebm7 = Chord('Ebm7')
