@@ -8,7 +8,7 @@ Created on Thu May 14 15:27:54 2020
 
 from Music.notes import Note
 
-chord_type = dict(M = ['C', 4, 7],
+triad_types = dict(M = ['C', 4, 7],
                   m = ['A', 3, 7]
 #                  ,
 #                  aug = [4, 8],
@@ -18,23 +18,23 @@ chord_type = dict(M = ['C', 4, 7],
 class Triad():
     def __init__(self, string):
         
-        name, kind = parser(string)
+        name, triad_type = trparser(string)
 
-        if kind not in chord_type:
-            raise ValueError(f'Unsupported chord type: "{kind}"')
+        if triad_type not in triad_types:
+            raise ValueError(f'Unsupported chord type: "{triad_type}"')
         
-        self._kind = kind
+        self._triad_type = triad_type
         
         self.root(name)
         
-        third = self.root().transpose(chord_type[kind][1]).name()
-        fifth = self.root().transpose(chord_type[kind][2]).name()
+        third = self.root().transpose(triad_types[triad_type][1]).name()
+        fifth = self.root().transpose(triad_types[triad_type][2]).name()
         
         self.third(third)
         self.fifth(fifth)
         
         # How should we display the root?
-        self.trspell(kind)
+        self.trspell()
         
                          
     def root(self, root = None):
@@ -52,8 +52,8 @@ class Triad():
             self._fifth = Note(fifth) 
         return self._fifth
     
-    def trspell(self, kind):
-        base = chord_type[kind][0]
+    def trspell(self):
+        base = triad_types[self._triad_type][0]
         d = Note(base).distance(self.root())
         if d in range(1,5): 
             self.root().to_sharp()
@@ -87,22 +87,22 @@ class Triad():
     
     def trtranspose(self, number):
         new_root_name = self.root().transpose(number).name()
-        kind = self._kind
-        return Triad(f'{new_root_name}{kind}')
+        triad_type = self._triad_type
+        return Triad(f'{new_root_name}{triad_type}')
     
     def __str__(self):
-        return (f'{self.root()}{self._kind} chord: ' + 
+        return (f'{self.root()}{self._triad_type} chord: ' + 
                    f'{self.root()} {self.third()} {self.fifth()}')
 
     def __repr__(self):
         return f'{self.root()} {self.third()} {self.fifth()}'
 
-def parser(string):
+def trparser(string):
     
     name = string[:-1]
-    kind = string[-1]
+    triad_type = string[-1]
     
-    return name, kind
+    return name, triad_type
 
 def main():
         
