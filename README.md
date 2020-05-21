@@ -2,7 +2,7 @@
 
 A package for creation of chord and note objects (and maybe scales eventually).  Created as an exercise in class and package development
 
-Currently supports major and minor triads through the "Triad" class, and major 7, minor 7, and 7 chords through the "Chord" class.
+Currently supports major and minor triads through the "Triad" class, and major 7, minor 7, and 7 chords through the "Chord" class (Chord inherits from Triad, so Chord can be used for triads, as in the example below).
 
 #### Usage
 Chord constructor both takes a single string, which starts with the root, and continues with a suffix indicating the chord type:  
@@ -18,7 +18,7 @@ from Music import *
 
 # make a D major chord
 Dmaj = Chord('DM')
-print(dmaj)
+print(Dmaj)
 
 # make an Eb minor 7 chord
 Ebm7 = Chord('Ebm7')
