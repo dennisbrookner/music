@@ -5,7 +5,7 @@ A package for creation of chord and note objects (and maybe scales eventually). 
 Currently supports major and minor triads through the "Triad" class, and major 7, minor 7, and 7 chords through the "Chord" class (Chord inherits from Triad, so Chord can be used for triads, as in the example below).
 
 #### Usage
-Chord constructor both takes a single string, which starts with the root, and continues with a suffix indicating the chord type:  
+The Chord constructor takes a single string, which starts with the root, and continues with a suffix indicating the chord type:  
 M - major  
 m - minor  
 M7 - major seventh  
