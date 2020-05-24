@@ -107,6 +107,11 @@ def parser(string):
         trstring = string[:-1]
         sevstring = 'm'
         sevkind = 'm7'
+        
+    elif 'hd' in string:
+        trstring = f'{string[:-3]}d'
+        sevstring = 'm'
+        sevkind = 'hd7'
 
     else:
         trstring = f'{string[:-1]}M'

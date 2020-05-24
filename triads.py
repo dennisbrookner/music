@@ -9,7 +9,8 @@ Created on Thu May 14 15:27:54 2020
 from Music.notes import Note
 
 triad_types = dict(M = ['C', 4, 7],
-                  m = ['A', 3, 7]
+                  m = ['A', 3, 7],
+                  d = ['d', 3, 6]
 #                  ,
 #                  aug = [4, 8],
 #                  dim = [3, 6]
@@ -54,25 +55,33 @@ class Triad():
     
     def trspell(self):
         base = triad_types[self._triad_type][0]
+        ignore_fifths = False
+        if base == 'd':
+            ignore_fifths = True
+            base = 'A'
         d = Note(base).distance(self.root())
         if d in range(1,5): 
             self.root().to_sharp()
             self.third().to_sharp()
-            self.fifth().to_sharp()
+            if not ignore_fifths:
+                self.fifth().to_sharp()
         elif d in range(8,12):
             self.root().to_flat()
             self.third().to_flat()
-            self.fifth().to_flat()
+            if not ignore_fifths:
+                self.fifth().to_flat()
             
         elif d in range(5,8):
             if self.root().acc() == 'f':
                 self.root().to_flat()
                 self.third().to_flat()
-                self.fifth().to_flat()
+                if not ignore_fifths:
+                    self.fifth().to_flat()
             else:
                 self.root().to_sharp()
                 self.third().to_sharp()
-                self.fifth().to_sharp()
+                if not ignore_fifths:
+                    self.fifth().to_sharp()
                 
         elif d == 0:
             if base == 'C':
@@ -80,10 +89,20 @@ class Triad():
                 self.third().to_sharp()
             else:
                 self.third().to_flat()
-                self.fifth().to_sharp()
+                if not ignore_fifths:
+                    self.fifth().to_sharp()
         
         else:
             raise ValueError(f'Unexpected transposition error with d = {d}')
+            
+        if ignore_fifths:
+            if d in range(5,8):
+                self.root().to_flat()
+                self.third().to_flat()
+                self.fifth().to_flat()
+            else:
+                self.fifth().to_flat()
+        return
     
     def trtranspose(self, number):
         new_root_name = self.root().transpose(number).name()
