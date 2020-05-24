@@ -29,12 +29,12 @@ print(Ebm7)
 If spelling the chord with the given root would require a double sharp or double flat, the root is rewritten as the enharmonic and then spelled:
 ```python
 print(Chord('CbM')) # successfully prints Cb major
-print(Chord('Cbm')) # prints B minor, becasue Cb minor would have an Ebb
+print(Chord('Cbm')) # prints B minor, because Cb minor would have an Ebb
 ```
 This works for 7ths too:
 ```python
 print(Chord('CbM7')) # successfully prints Cb major 7
-print(Chord('Cbm')) # prints B minor 7, becasue Cb minor would have an Ebb and a Bbb
+print(Chord('Cbm')) # prints B minor 7, because Cb minor would have an Ebb and a Bbb
 print(Chord('Cb7')) # prints B7, because the 7th of Cb7 would be Bbb
 ```
 #### Displaying a chord
@@ -43,7 +43,7 @@ Printing a chord is verbose and includes a description of the chord's name and t
 print(Chord('Cm7'))
 ```
 returns
-```python
+```
 Cm7 chord: C Eb G Bb
 ```
 whereas the direct return from repr is terser:
@@ -51,7 +51,7 @@ whereas the direct return from repr is terser:
 repr(Chord('Cm7'))
 ```
 returns
-```python
+```
 'C Eb G Bb'
 ```
 and would support something like:
@@ -60,7 +60,7 @@ chord_as_text = repr(Chord('Cm7')).split()
 print(chord_as_text)
 ```
 which returns
-```python
+```
 ['C', 'Eb', 'G', 'Bb']
 ```
 
@@ -72,7 +72,7 @@ new_chord = old_chord.transpose(3)
 print(new_chord)
 ```
 and the new chord has been transposed up by 3 half steps:
-```python
+```
 EbM7 chord: Eb G Bb D
 ```
 The transpose method only supports values between 1 and 11 (inclusive).  Additionally, the transpose method will always give back the same type of chord.  Future functionality may support a "Key" class that can intelligently change chord type along with transposition.
