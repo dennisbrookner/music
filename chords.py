@@ -67,7 +67,10 @@ class Chord(Triad):
     
     def transpose(self, number):
         new_root_name = self.root().transpose(number).name()
-        kind = self._kind[2]
+        if self._sev_type[1]:
+            kind = self._sev_type[1]
+        else:
+            kind = self._triad_type
         return Chord(f'{new_root_name}{kind}')
         
 
