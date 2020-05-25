@@ -1,11 +1,33 @@
 # Music
 
-A package for creation of chord and note objects (and maybe scales and keys eventually).  Created as an exercise in class and package development
+A package for creation of various musical entities including notes, chords, and scales.  Created as an exercise in class and package development  
 
-Currently supports all diatonically occurring triads and seventh chords.  All are available in the "Chord" class; the parent "Triad" class could also be used for triads, but there's no advantage to doing so.
+## Notes
+Note objects have a name, a number (1-12 starting with C), and an accidental type. The Note constructor can take either name or number, and will automatically assign the other, so `Note('D')` and `Note(3)` both create the same note with name 'D' and number 3.  
 
+#### Accidentals and enharmonics
+For all notes with two possible enharmonic representations (excluding double sharps and flats, which are not supported), the `Note.to_sharp()` and `Note.to_flat()` methods can change these representations.  These methods are also safe to use on notes that are already sharped or flatted, or which don't have an enharmonic respelling.  These methods do __not__ change the value of the note; to, say, change a G to a G#, read on:  
+
+#### Transposition
+Notes can be transposed up or down by up to 11 half-steps.  Importantly, the transpose function does not work in place, meaning usage should look like `new_note = old_note.transpose(number)`  
+  
+#### Circle of fifths
+The 'distance' method can find the circle-of-fifths distance between two notes.  Usage is made clearer with an example:
+```python
+from Music import Note
+
+C = Note('C')
+G = Note('G')
+
+C.distance(G) # is 1, while
+G.distance(C) # is 11
+```
+  
+## Chords
+Just as chords are comprised of notes, a Chord object is comprised of three (or four) Note objects. Each Note is an attribute of the chord, accessible as Chord.root(), Chord.third(), etc.  When using chords, there is no need to manually make notes; construction of notes is wrapped into the chord constructor.  The Chord class currently supports all diatonically occurring triads and seventh chords.
+  
 #### Constructing a chord
-The Chord constructor takes a single string, which starts with the root, and continues with a suffix indicating the chord type:  
+The Chord constructor takes a single string, which starts with the name of the root, and continues with a suffix indicating the chord type:  
 M - major  
 m - minor  
 d - diminished  
@@ -65,7 +87,7 @@ which returns
 ```
 
 #### Transposing a chord
-A Chord can be easily transposed:
+Like a Note, a Chord can be easily transposed:
 ```python
 old_chord = Chord('CM7')
 new_chord = old_chord.transpose(3)
@@ -75,4 +97,4 @@ and the new chord has been transposed up by 3 half steps:
 ```
 EbM7 chord: Eb G Bb D
 ```
-The transpose method only supports values between 1 and 11 (inclusive).  Additionally, the transpose method will always give back the same type of chord.  Future functionality may support a "Key" class that can intelligently change chord type along with transposition.
+The transpose method supports values between -11 and 11 (inclusive).  Additionally, the transpose method will always give back the same type of chord.  Future functionality may support a "Key" class that can intelligently change chord type along with transposition.
