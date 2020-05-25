@@ -141,6 +141,8 @@ class Note:
             raise TypeError('Transpositions must be by integer values')
         elif change >= 12 or change <= -12:
             raise ValueError('Don\'t transpose by more than an octave!')
+        elif change == 0:
+            transposed = self
         elif self.num() + change >= 1 and self.num() + change <= 12:
             transposed = Note(self.num() + change)
         elif self.num() + change > 12:

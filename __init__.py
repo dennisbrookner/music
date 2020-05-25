@@ -9,3 +9,4 @@ Created on Sat May 16 17:44:39 2020
 from .notes import Note
 from .triads import Triad
 from .chords import Chord
+from .scales import Scale
